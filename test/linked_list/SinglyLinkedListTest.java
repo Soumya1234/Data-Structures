@@ -56,4 +56,32 @@ class SinglyLinkedListTest {
 		assertEquals(1,(int)testList.peekFirst());
 		assertEquals(44,(int)testList.peekLast());
 	}
+	
+	@Test
+	void testRemoveFirst() {
+		testList.removeFirst();
+		Integer[] resulting_list = Arrays.copyOf(testList.toArray(),testList.toArray().length,Integer[].class);
+		assertArrayEquals(new Integer[] {23,45,44},resulting_list);
+		testList.removeFirst();
+		testList.removeFirst();
+		resulting_list = Arrays.copyOf(testList.toArray(),testList.toArray().length,Integer[].class);
+		assertArrayEquals(new Integer[] {44},resulting_list);
+		testList.removeFirst();
+		assertTrue(testList.isEmpty());
+		
+		
+	}
+	
+	@Test
+	void testRemoveLast() {
+		testList.removeLast();
+		assertEquals(3,testList.size());
+		Integer[] resulting_list = Arrays.copyOf(testList.toArray(),testList.toArray().length,Integer[].class);
+		assertArrayEquals(new Integer[] {1,23,45},resulting_list);
+		testList.removeFirst();
+		testList.removeLast();
+		testList.removeFirst();
+		assertTrue(testList.isEmpty());
+	}
+	
 }
