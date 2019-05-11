@@ -134,7 +134,7 @@ public class SinglyLinkedList {
 	/**
 	 * Removes the tail of the element from the list and returns the object
 	 * 
-	 * @return
+	 * @return Object
 	 */
 	public Object removeLast() {
 		if (this.isEmpty()) {
@@ -145,7 +145,7 @@ public class SinglyLinkedList {
 		// then head and tail point to the same element
 		// So remove the element and assign null to head and tail
 		// now the list will be empty
-		if (head == tail) {
+		if (this.size == 1) {
 			element = head;
 			head = tail = null;
 			size--;
@@ -163,6 +163,87 @@ public class SinglyLinkedList {
 			size--;
 			return element;
 		}
+	}
+
+	/**
+	 * Removes the specified element  
+	 * @throws RuntimeException if invoked on an empty list
+	 * @param element
+	 * @return true if the element was removed else returns false
+	 */
+	public boolean remove(Object element) {
+		// If the list is empty then throw exception
+		if (this.isEmpty()) {
+			throw new RuntimeException("Empty List!!");
+		}
+		if(indexOf(element)!= -1) {
+			removeAt(indexOf(element));
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	/**
+	 * Removes the node at the specified index and returns the element
+	 * 
+	 * @throws RuntimeException        if the list is empty
+	 * @throws IlegalArgumentException if index is out of bounds
+	 * @param index
+	 * @return
+	 */
+	public Object removeAt(int index) {
+		// If the list is empty then throw exception
+		if (this.isEmpty()) {
+			throw new RuntimeException("Empty List!!");
+		}
+		// If the index if out of bounds then throw exception
+		if (index < 0 || index > size - 1) {
+			throw new IllegalArgumentException("Index: " + index + " out of bounds");
+		}
+		Object element = null;
+		// If the index is that of the last element then invoke removeLast()
+		// This also covers the case when size==1 and index==0
+		if (index == size - 1) {
+			return this.removeLast();
+		}
+		// If the index is that of the first element then invoke removeFirst()
+		if (index == 0) {
+			return this.removeFirst();
+		}
+		// If the index is in between then traverse to the previous node at (index-1)
+		// and update its next reference
+		int i = 0;
+		Node trav = head;
+		while (i < index - 1) {
+			trav = trav.next;
+			i++;
+		}
+		element = trav.next.data;
+		Node temp = trav.next.next;
+		trav.next = temp;
+		size--;
+		return element;
+	}
+
+	/**
+	 * Returns the index of the input element if exists else returns false
+	 * 
+	 * @param Object element to be searched
+	 * @return int
+	 */
+	public int indexOf(Object element) {
+		int i = 0;
+		Node trav = head;
+		while (trav != null) {
+			if (trav.data.equals(element)) {
+				return i;
+			}
+			trav = trav.next;
+			i++;
+		}
+		return -1;
 	}
 
 	/*
