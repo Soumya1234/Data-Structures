@@ -109,7 +109,7 @@ class SinglyLinkedListTest {
 				testList.removeAt(1);
 			}
 		});
-		
+
 		testList.removeAt(0);
 		assertTrue(testList.isEmpty());
 		assertThrows(Exception.class, new Executable() {
@@ -120,15 +120,15 @@ class SinglyLinkedListTest {
 			}
 		});
 	}
-	
+
 	@Test
 	void testRemove() {
 		assertTrue(testList.remove(45));
 		Integer[] resulting_list = Arrays.copyOf(testList.toArray(), testList.toArray().length, Integer[].class);
-		assertArrayEquals(new Integer[] {1, 23,44 }, resulting_list);
-		assertEquals(3,testList.size());
+		assertArrayEquals(new Integer[] { 1, 23, 44 }, resulting_list);
+		assertEquals(3, testList.size());
 		assertFalse(testList.remove(88));
-		assertEquals(3,testList.size());
+		assertEquals(3, testList.size());
 		assertTrue(testList.remove(1));
 		assertTrue(testList.remove(23));
 		assertTrue(testList.remove(44));
@@ -140,5 +140,28 @@ class SinglyLinkedListTest {
 
 			}
 		});
+	}
+
+	@Test
+	void testInsert() {
+		
+		testList.insert(2, 33);
+		Integer[] resulting_list = Arrays.copyOf(testList.toArray(), testList.toArray().length, Integer[].class);
+		assertArrayEquals(new Integer[] { 1, 23, 33, 45, 44 }, resulting_list);
+		assertTrue(testList.remove(1));
+		assertTrue(testList.remove(23));
+		assertTrue(testList.remove(44));
+		assertTrue(testList.remove(45));
+		assertThrows(Exception.class, new Executable() {
+			@Override
+			public void execute() throws Throwable {
+				testList.insert(1,78);
+
+			}
+		});
+		testList.insert(0, 83);
+		resulting_list = Arrays.copyOf(testList.toArray(), testList.toArray().length, Integer[].class);
+		assertArrayEquals(new Integer[] {83,33}, resulting_list);
+		
 	}
 }
