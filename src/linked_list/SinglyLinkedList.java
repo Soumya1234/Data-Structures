@@ -1,6 +1,6 @@
 package linked_list;
 
-public class SinglyLinkedList implements LinkedList{
+public class SinglyLinkedList implements LinkedList {
 	private int size;
 	private Node head;
 	private Node tail;
@@ -166,7 +166,8 @@ public class SinglyLinkedList implements LinkedList{
 	}
 
 	/**
-	 * Removes the specified element  
+	 * Removes the specified element
+	 * 
 	 * @throws RuntimeException if invoked on an empty list
 	 * @param element
 	 * @return true if the element was removed else returns false
@@ -176,11 +177,10 @@ public class SinglyLinkedList implements LinkedList{
 		if (this.isEmpty()) {
 			throw new RuntimeException("Empty List!!");
 		}
-		if(indexOf(element)!= -1) {
+		if (indexOf(element) != -1) {
 			removeAt(indexOf(element));
 			return true;
-		}
-		else {
+		} else {
 			return false;
 		}
 	}
@@ -188,7 +188,7 @@ public class SinglyLinkedList implements LinkedList{
 	/**
 	 * Removes the node at the specified index and returns the element
 	 * 
-	 * @throws RuntimeException        if the list is empty
+	 * @throws RuntimeException if the list is empty
 	 * @throws IlegalArgumentException if index is out of bounds
 	 * @param index
 	 * @return
@@ -228,7 +228,42 @@ public class SinglyLinkedList implements LinkedList{
 	}
 
 	/**
-	 * Returns the index of the input element if exists else returns false
+	 * Inserts an element in the specified index position
+	 * @param index
+	 * @param element
+	 * @throws IllegalArgumentException if index is out of bounds
+	 * @throws RuntimeException if the list is empty
+	 * @return 
+	 */
+	@Override
+	public void insert(int index, Object element) {
+		// If the index if out of bounds then throw exception
+		if (index < 0 || index > size - 1) {
+			throw new IllegalArgumentException("Index: " + index + " out of bounds");
+		}
+		if (isEmpty()) {
+			throw new RuntimeException("Can not insert. List is empty");
+		}
+		//If the element is to be added at the 0th index then invoke addToHead(element)
+		if (index == 0) {
+			addToHead(element);
+		} else {
+			//If the index is not 0 then move to the node at (index-1) and update the next references
+			int i = 0;
+			Node trav = head;
+			Node new_node = new Node(element, null);
+			while (i < index - 1) {
+				trav = trav.next;
+				i++;
+			}
+			new_node.next = trav.next;
+			trav.next = new_node;
+			size++;
+		}
+	}
+
+	/**
+	 * Returns the index of the input element if exists else returns -1
 	 * 
 	 * @param Object element to be searched
 	 * @return int
