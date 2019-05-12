@@ -1,6 +1,6 @@
 package linked_list;
 
-public class SinglyLinkedList {
+public class SinglyLinkedList implements LinkedList{
 	private int size;
 	private Node head;
 	private Node tail;
