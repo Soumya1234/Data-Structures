@@ -280,7 +280,32 @@ public class SinglyLinkedList implements LinkedList {
 		}
 		return -1;
 	}
-
+	
+	public String toString() {
+		if(isEmpty()) {
+			return "[]";
+		}
+		Node trav = head;
+		StringBuilder sb = new StringBuilder().append("[");
+		while(trav!= null) {
+			if(trav == tail) {
+				sb.append(trav.data).append("]");
+			}
+			else {
+			sb.append(trav.data).append(",");
+			}
+			trav = trav.next;
+		}
+		return sb.toString();
+	}
+	
+	/**
+	 * @return true if the element is in the list else returns false
+	 */
+	@Override
+	public boolean contains(Object element) {
+		return !(indexOf(element) == -1);
+	}
 	/*
 	 * Static member class to represent a node in the list
 	 */
@@ -293,4 +318,6 @@ public class SinglyLinkedList implements LinkedList {
 			this.next = next;
 		}
 	}
+
+	
 }

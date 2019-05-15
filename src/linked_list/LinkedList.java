@@ -15,5 +15,5 @@ public interface LinkedList {
 	Object removeAt(int index);
 	int indexOf(Object element);
 	void insert(int index,Object element);
-	
+	boolean contains(Object element);
 }

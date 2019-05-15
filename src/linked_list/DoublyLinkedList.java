@@ -93,7 +93,7 @@ public class DoublyLinkedList implements LinkedList {
 		Object element = head.data;
 		if (size == 1) {
 			head = tail = null;
-			size = 0;
+			size--;
 			return element;
 		} else {
 			head.next.prev = null;
@@ -111,7 +111,7 @@ public class DoublyLinkedList implements LinkedList {
 		Object element = tail.data;
 		if (size == 1) {
 			head = tail = null;
-			size = 0;
+			size--;
 			return element;
 		} else {
 			tail.prev.next = null;
@@ -126,7 +126,12 @@ public class DoublyLinkedList implements LinkedList {
 		if (isEmpty()) {
 			throw new RuntimeException("List is empty");
 		}
-		return false;
+		if (indexOf(element) == -1) {
+			return false;
+		} else {
+			removeAt(indexOf(element));
+			return true;
+		}
 	}
 
 	@Override
@@ -147,9 +152,11 @@ public class DoublyLinkedList implements LinkedList {
 		if (index == 0) {
 			return this.removeFirst();
 		}
+		// If the index is in between then go to that index and update the next and prev
+		// references of previous and next element
 		int i = 0;
 		Node trav = head;
-		while(i!=index) {
+		while (i != index) {
 			trav = trav.next;
 			i++;
 		}
@@ -167,8 +174,8 @@ public class DoublyLinkedList implements LinkedList {
 		}
 		Node trav = head;
 		int i = 0;
-		while(trav!=null) {
-			if(trav.data.equals(element)) {
+		while (trav != null) {
+			if (trav.data.equals(element)) {
 				return i;
 			}
 			trav = trav.next;
@@ -179,8 +186,47 @@ public class DoublyLinkedList implements LinkedList {
 
 	@Override
 	public void insert(int index, Object element) {
-		// TODO Auto-generated method stub
-
+		if (isEmpty()) {
+			throw new RuntimeException("List is empty");
+		}
+		if (index < 0 || index > size - 1) {
+			throw new IllegalArgumentException("Index: " + index + " out of bounds");
+		}
+		Node new_node = new Node(element, null, null);
+		if (index == 0) {
+			addToHead(element);
+		} else {
+			int i = 0;
+			Node trav = head;
+			while (trav != null) {
+				if (i == index) {
+					trav.prev.next = new_node;
+					new_node.prev = trav.prev;
+					new_node.next = trav;
+					size++;
+				}
+				trav = trav.next;
+				i++;
+			}
+		}
+	}
+	
+	public String toString() {
+		if(isEmpty()) {
+			return "[]";
+		}
+		Node trav = head;
+		StringBuilder sb = new StringBuilder().append("[");
+		while(trav!= null) {
+			if(trav == tail) {
+				sb.append(trav.data).append("]");
+			}
+			else {
+			sb.append(trav.data).append(",");
+			}
+			trav = trav.next;
+		}
+		return sb.toString();
 	}
 
 	private static class Node {
@@ -193,6 +239,14 @@ public class DoublyLinkedList implements LinkedList {
 			this.next = next;
 			this.prev = prev;
 		}
+	}
+
+	/**
+	 * @return true if the element is in the list else false
+	 */
+	@Override
+	public boolean contains(Object element) {
+		return !(indexOf(element) == -1);
 	}
 
 }
